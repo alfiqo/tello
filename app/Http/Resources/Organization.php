@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TrelloWebHook extends JsonResource
+class Organization extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,8 +14,6 @@ class TrelloWebHook extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'data' => $this->collection,
-        ];
+        return parent::toArray($request);
     }
 }
