@@ -7,5 +7,5 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class TrelloWebHook extends Model
 {
-    protected $fillable = ['idBoard'];
+    protected $guarded = [];
 }
