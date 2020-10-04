@@ -20,7 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResources([
     'trello-webhook' => 'API\TrelloWebHookController',
-    'organizations' => 'API\OrganizationController',
+    'organization' => 'API\OrganizationController',
+    'board' => 'API\BoardController',
 ]);
 
 Route::get('trello-organization', 'API\OrganizationController@trelloOrganization');
+Route::get('trello-organization-board/{organization}', 'API\BoardController@trelloBoard');
