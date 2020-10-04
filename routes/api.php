@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResources([
+    'trello-webhook' => 'API\TrelloWebHookController',
+    'organization' => 'API\OrganizationController',
+    'board' => 'API\BoardController',
+]);
+
+Route::get('trello-organization', 'API\OrganizationController@trelloOrganization');
+Route::get('trello-organization-board/{organization}', 'API\BoardController@trelloBoard');
