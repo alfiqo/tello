@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Board;
 use App\Http\Controllers\Controller;
-use App\Organization;
 use Illuminate\Http\Request;
-use App\Http\Resources\Organization as OrganizationResource;
+use App\Http\Resources\Board as BoardResource;
 use Illuminate\Http\Response;
 
-class OrganizationController extends Controller
+class BoardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        return new OrganizationResource(Organization::latest()->get());
+        return new BoardResource(Board::latest()->get());
     }
 
     /**
@@ -28,7 +28,7 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        Organization::firstOrCreate($request->json()->all());
+        Board::firstOrCreate($request->json()->all());
 
         return response()->json([
             'message' => 'success'
@@ -38,22 +38,22 @@ class OrganizationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Organization  $organization
+     * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function show(Organization $organization)
+    public function show(Board $board)
     {
-        return new OrganizationResource($organization);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Organization  $organization
+     * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Organization $organization)
+    public function update(Request $request, Board $board)
     {
         //
     }
@@ -61,20 +61,20 @@ class OrganizationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Organization  $organization
+     * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Organization $organization)
+    public function destroy(Board $board)
     {
         //
     }
 
     /**
      *
-     * @param  \App\Organization  $organization
+     * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function trelloOrganization()
+    public function trelloBoard(string $organization)
     {
         $headers = array(
             'Accept' => 'application/json'
@@ -86,22 +86,20 @@ class OrganizationController extends Controller
         );
 
         $response = \Unirest\Request::get(
-            'https://api.trello.com/1/members/me/organizations',
+            "https://api.trello.com/1/organizations/{$organization}/boards",
             $headers,
             $query
         );
 
         $data = array();
-        foreach($response->body as $value) {
+
+        foreach ($response->body as $value) {
             $data[] = [
                 'idModel' => $value->id,
+                'idOrganization' => $value->idOrganization,
                 'name' => $value->name,
-                'displayName' => $value->displayName,
-                'teamType' => $value->teamType,
                 'desc' => $value->desc,
-                'url' => $value->url,
-                'boards' => count($value->idBoards),
-                'memberships' => count($value->memberships)
+                'url' => $value->url
             ];
         }
 
