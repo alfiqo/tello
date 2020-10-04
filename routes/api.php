@@ -26,3 +26,4 @@ Route::apiResources([
 
 Route::get('trello-organization', 'API\OrganizationController@trelloOrganization');
 Route::get('trello-organization-board/{organization}', 'API\BoardController@trelloBoard');
+Route::get('trello-webhook-init', 'API\TrelloWebHookController@initWebHook');
