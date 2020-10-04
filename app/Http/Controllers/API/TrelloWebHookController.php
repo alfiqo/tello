@@ -69,4 +69,39 @@ class TrelloWebHookController extends Controller
     {
         //
     }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function initWebHook(Request $request)
+    {
+        $headers = array(
+            'Accept' => 'application/json'
+        );
+
+        $callbackUrl = 'https://fiqo.arsiteknologi.com/api/trello-webhook';
+
+        $query = array(
+            'key' => env('TRELLO_API_KEY'),
+            'token' => env('TRELLO_TOKEN'),
+            'description'=> $request->get('name'),
+            'callbackURL' => $callbackUrl,
+            'idModel' => $request->get('idModel')
+        );
+
+        $response = \Unirest\Request::post(
+            'https://api.trello.com/1/webhooks/',
+            $headers,
+            $query
+        );
+
+        return response()->json([
+            'data' => $response
+        ], Response::HTTP_OK);
+    }
+
 }
