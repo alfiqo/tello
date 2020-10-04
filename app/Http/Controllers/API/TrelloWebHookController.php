@@ -120,7 +120,7 @@ class TrelloWebHookController extends Controller
         $query = array(
             'key' => env('TRELLO_API_KEY'),
             'token' => env('TRELLO_TOKEN'),
-            'description' => $request->get('name'),
+            'description' => $request->get('description'),
             'callbackURL' => $callbackUrl,
             'idModel' => $request->get('idModel')
         );
