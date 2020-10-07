@@ -49,11 +49,11 @@ class TrelloWebHookController extends Controller
         if ($action['type'] === 'createCard') {
             $card = $action['display']['entities']['card']['text'];
             $list = $action['display']['entities']['list']['text'];
-            $message = "{$creator} create a card {$card} in list of {$list} on <a href='{$model['shortUrl']}'> {$model['name']}</a>";
+            $message = "{$creator} create a card {$card} in {$list} of list on <a href='{$model['shortUrl']}'> {$model['name']}</a>";
         }
         if ($action['type'] === 'addMemberToCard') {
             $card = $action['display']['entities']['card']['text'];
-            $message = "{$creator} join a {$card} on <a href='{$model['shortUrl']}'> {$model['name']}</a>";
+            $message = "{$creator} join {$card} on <a href='{$model['shortUrl']}'> {$model['name']}</a>";
         }
 
         Telegram::sendMessage([
